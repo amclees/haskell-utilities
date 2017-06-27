@@ -1,13 +1,16 @@
+import Data.Char
+
 type Cipher = Int -> [Char] -> [Char]
 
-monoalphabeticCipher :: (Char -> Char) -> Cipher
-monoalphabeticCipher operator = (\key -> map (operator key))
-
+additiveOperation :: Int -> Char -> Char
+additiveOperation key char = chr((((ord char) - 97 + key) `mod` 26) + 97)
 additiveCipher :: Cipher
-additiveCipher = monoalphabeticCipher (+) . (`mod` 26)
+additiveCipher key = (\string -> map (additiveOperation key) string)
 
-multiplicativeCipher :: Cipher
-multiplicativeCipher = monoalphabeticCipher (*) . (`mod` 26)
+multiplicitiveOperation :: Int -> Char -> Char
+multiplicitiveOperation key char = chr(((((ord char) - 97) * key) `mod` 26) + 97)
+multiplicitiveCipher :: Cipher
+multiplicitiveCipher key = (\string -> map (multiplicitiveOperation key) string)
 
 affineCipher :: Cipher
-affineCipher = additiveCipher . multiplicativeCipher
+affineCipher key = (\string -> map ((additiveOperation key) . (multiplicitiveOperation key)) string)

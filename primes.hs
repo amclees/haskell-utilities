@@ -1,9 +1,10 @@
+module Primes where
 import Data.List
 
 primes :: Int -> [Int]
-primes n = [ x | x <- [2..(quot n 2)], foldl (\prime number -> prime && ((x `mod` number) /= 0)) True [2..(x - 1)]]
+primes n = [ x | x <- [2..n], foldl (\prime number -> prime && ((x `mod` number) /= 0)) True [2..(x - 1)]]
 
-defaultIfNothing :: Int -> Maybe Int -> Int
+defaultIfNothing :: a -> Maybe a -> a
 defaultIfNothing defaultValue n = case n of
   Nothing -> defaultValue
   Just x -> x
